@@ -1,0 +1,2 @@
+add \n after each endline
+add in aisle # after search
