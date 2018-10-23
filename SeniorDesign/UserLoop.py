@@ -11,6 +11,7 @@
 import ReadDatabase
 import Search
 import UpdateDatabase
+import strandtest
 import time
 
 #Used to create an item class
@@ -31,17 +32,17 @@ class User:
 		self.color = inColor
 		self.RGBW = []
 		if(inColor.lower() in 'red'.lower()):
-			self.RGBW = [255,0,0,0]
+			self.RGB = [255,0,0]
 		if(inColor.lower() in 'blue'.lower()):
-			self.RGBW = [0,255,0,0]
+			self.RGB = [0,0,255]
 		if(inColor.lower() in 'green'.lower()):
-			self.RGBW = [0,0,255,0]
+			self.RGB = [0,255,0]
 		if(inColor.lower() in 'white'.lower()):
-			self.RGBW = [0,0,0,255]
+			self.RGB = [255,255,255]
 		if(inColor.lower() in 'yellow'.lower()):
-			self.RGBW = [255,255,0,0]
+			self.RGB = [255,255,0]
 		if(inColor.lower() in 'purple'.lower()):
-			self.RGBW = [128,0,128,0]
+			self.RGB = [128,0,128]
 
 	#Main function to be called to start all code
 def main():
@@ -62,23 +63,22 @@ def main():
 		locRow = arrayOfItems[i]
 		i+=1
 		listOfItems.append(Item(itemName,locCol,locRow,locAisle))
-		print 'Here is the item you just read \nName %s\nAisle %s\nColumn %s\nRow %s'%(listOfItems[(len(listOfItems)-1)].name,listOfItems[(len(listOfItems)-1)].locAisle,listOfItems[(len(listOfItems)-1)].locCol,listOfItems[(len(listOfItems)-1)].locRow)
-
+	printList(listOfItems)
 	
 	#While loop to make sure the code doesn't stop unless it is killed
 	while(1):
 		#Need to get input of what kind of user they are with authentification
 		userType = raw_input('What kind of user are you? Customer or Employee? \n')
-		if(userType == 'Customer' or userType == 'Employee'):
+		if(userType.lower() == 'customer' or userType.lower() == 'employee'):
 			loggedIn = 'yes'
 				#While loop while the user is logged into a specific area
 			while(loggedIn == 'yes'): 
 				#Find what they want to do
-				if(userType == 'Employee'):
+				if(userType.lower() == 'employee'):
 					password = raw_input('Password: ')
 					if(password == '123'):
 						while(loggedIn == 'yes'):
-							empAct = raw_input('Would you like to add new objects(1) or monitor misplaced items(2) or delete an item(3) or log out(4)? ')
+							empAct = raw_input('Would you like to add new objects(1) or monitor misplaced items(2) or delete an item(3) or print the list(4) or log out(5)? ')
 							print '\n'
 							#if they are employee and in the placement mode
 							if(empAct == '1'):
@@ -155,10 +155,12 @@ def main():
 								else:
 									print "That item didn't exist in our inventory.\n"
 							if(empAct == '4'):
+								printList(listOfItems)
+							if(empAct == '5'):
 								loggedIn = 'no'
 								print 'Logged off\n\n'
 				#Find if the user is a customer		
-				if(userType == 'Customer'):
+				if(userType.lower() == 'customer'):
 					#Now we need to make a profile for them
 					username = raw_input('What username would you like to use? ')
 					print '\n'
@@ -186,17 +188,25 @@ def main():
 								search = raw_input('Would you like the item location to light up? (y or n): ')
 								print '\n'
 								while(search == 'y'):
-									#Runs the LEDs to light up for a period of time(WNTBD)
+									#Runs the LEDs to light up for a period of time
+									strandtest.setColors(user.RGB,int(float((listOfItems[location].locCol))*10),20)
 									time.sleep(5)
-									#Run the LED code for white across all of them(WNTBD)
+									strandtest.setColors([0,0,0],0,60)
+									#Run the LED code for dark across all of them
 									search = raw_input('Would you like to light the item location up again?(y or n): ')
 							else:
 								print'%s, unfortunately that item is not in our stock.\n'%(user.userName)
 						if(userAction == '2'):
 							loggedIn = 'no'
 							print 'Logged off\n\n'
-				else:
+				if(userType.lower() != 'customer' and userType.lower() != 'employee'):
 					print 'Your input was invalid\n'
+					
+def printList(list):
+	i = 0
+	while i < len(list):
+		print 'Here is the item you just read \nName %s\nAisle %s\nColumn %s\nRow %s'%(list[i].name,list[i].locAisle,list[i].locCol,list[i].locRow)
+		i+=1
 	
 			
 main()
