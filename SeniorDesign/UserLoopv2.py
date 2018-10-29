@@ -187,12 +187,19 @@ def main():
 								print '%s can be found in Aisle %s, Row %s, and Column %s\n'%(listOfItems[location].name,listOfItems[location].locAisle,listOfItems[location].locRow,listOfItems[location].locCol)
 								search = raw_input('Would you like the item location to light up? (y or n): ')
 								print '\n'
-								while(search == 'y'):
-									#Runs the LEDs to light up for a period of time
-									strandtest.setColors(user.RGB,int(float((listOfItems[location].locCol))*10),20,21)
-									time.sleep(5)
-									strandtest.setColors([0,0,0],0,60,21)
-									#Run the LED code for dark across all of them
+								while(search == 'y'):								
+									#Find the strip that needs to be lit up
+									if(listOfItems[location].locAisle == '1'):
+										if(listOfItems[location].locRow == '1'):
+											stripPin = 21 #This sets pin 21 to the top row on the first aisle
+										elif(listOfItems[location].locRow == '2'):
+											stripPin = 20 #This sets pin 20 to the bottom row of the first aisle
+									elif(listOfItems[location].locAisle == '2'):
+										if(listOfItems[location].locRow == '1'):
+											stripPin = 16 #This sets pin 16 to the top row on the second aisle
+										elif(listOfItems[location].locRow == '2'):
+											stripPin = 12 #This sets pin 12 to the bottom row of the second aisle
+									runLEDS(user,listOfItems,location,stripPin)
 									search = raw_input('Would you like to light the item location up again?(y or n): ')
 							else:
 								print'%s, unfortunately that item is not in our stock.\n'%(user.userName)
@@ -208,5 +215,11 @@ def printList(list):
 		print 'Here is the item you just read \nName %s\nAisle %s\nColumn %s\nRow %s'%(list[i].name,list[i].locAisle,list[i].locCol,list[i].locRow)
 		i+=1
 	
+def runLEDS(user,listOfItems,location,stripPin):
+	#Runs the LEDs to light up for a period of time
+	strandtest.setColors(user.RGB,int(float((listOfItems[location].locCol))*10),20,stripPin)
+	time.sleep(5)
+	strandtest.setColors([0,0,0],0,60,stripPin)
+	#Run the LED code for dark across all of them
 			
 main()
