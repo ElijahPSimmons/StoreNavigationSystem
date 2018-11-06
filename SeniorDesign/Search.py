@@ -1,7 +1,7 @@
 #!/usr/bin/python2.7
 
-def searchNameList(listOfItems):
-	itemName = raw_input('What item are you looking for? ')
+def searchNameList(listOfItems,search):
+	itemName = search
 	location = -1
 	i=0
 	for item in listOfItems:

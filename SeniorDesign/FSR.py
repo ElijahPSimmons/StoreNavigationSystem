@@ -100,4 +100,6 @@ def runFSR():
 
 		# hang out and do nothing for a half second
 		time.sleep(0.5)
+		
+	return incorrect_weight
 runFSR()

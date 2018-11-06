@@ -1,8 +1,9 @@
-import pixy 
+#!/usr/bin/python2.7 
+
+# Pixy2 Python SWIG get blocks example 
+import pixy
 from ctypes import *
 from pixy import *
-
-# Pixy2 Python SWIG get blocks example #
 
 print ("Pixy2 Python SWIG Example -- Get Blocks")
 

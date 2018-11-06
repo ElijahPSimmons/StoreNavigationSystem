@@ -2,7 +2,7 @@
 
 # Written by Limor "Ladyada" Fried for Adafruit Industries, (c) 2015
 # This code is released into the public domain
-import numpy as np
+
 import time
 import os
 import RPi.GPIO as GPIO
@@ -41,7 +41,7 @@ def readadc(adcnum, clockpin, mosipin, misopin, cspin):
                         adcout |= 0x1
 
         GPIO.output(cspin, True)
-
+        
         adcout >>= 1       # first bit is 'null' so drop it
         return adcout
 
@@ -50,7 +50,7 @@ def readadc(adcnum, clockpin, mosipin, misopin, cspin):
 SPICLK = 18
 SPIMISO = 23
 SPIMOSI = 24
-SPICS = [5,6,13,19,26,25]
+SPICS = 25
 
 # set up the SPI interface pins
 GPIO.setup(SPIMOSI, GPIO.OUT)
@@ -61,35 +61,45 @@ GPIO.setup(SPICS, GPIO.OUT)
 # 10k trim pot connected to adc #0
 potentiometer_adc = 0;
 
-trim_pot = [0,0,0,0,0,0]
-last_read = [0,0,0,0,0,0]      # this keeps track of the last potentiometer value
-pot_adjust = [0,0,0,0,0,0]
+last_read = 0       # this keeps track of the last potentiometer value
 tolerance = 5       # to keep from being jittery we'll only change
                     # volume when the pot has moved more than 5 'counts'
-i = 0
 
 while True:
-        cs = SPICS[i]
+        # we'll assume that the pot didn't move
+        trim_pot_changed = False
+
         # read the analog pin
-        trim_pot[i] = readadc(potentiometer_adc, SPICLK, SPIMOSI, SPIMISO, cs)
+        trim_pot = readadc(potentiometer_adc, SPICLK, SPIMOSI, SPIMISO, SPICS)
         # how much has it changed since the last read?
-        pot_adjust[i] = (trim_pot[i]- last_read[i])
-	print trim_pot
-	print i
-		# Only report if weight changed more than tolerance
-	if(pot_adjust[i] > tolerance):
-		print "Misplaced Item!"
-	else:
-		print "No Misplaced Item Detected"
+        pot_adjust = abs(trim_pot - last_read)
 
-            # Store last value
-        last_read[i] = trim_pot[i]
+        if DEBUG:
+                print "trim_pot:", trim_pot
+                print "pot_adjust:", pot_adjust
+                print "last_read", last_read
 
-		# Increment i to move through SPI
-	if i < 5:
-		i += 1
-	else:
-		i = 0
+        if ( pot_adjust > tolerance ):
+               trim_pot_changed = True
+
+        if DEBUG:
+                print "trim_pot_changed", trim_pot_changed
+
+        if ( trim_pot_changed ):
+                set_volume = trim_pot / 10.24           # convert 10bit adc0 (0-1024) trim pot read into 0-100 volume level
+                set_volume = round(set_volume)          # round out decimal value
+                set_volume = int(set_volume)            # cast volume as integer
+
+                print 'Volume = {volume}%' .format(volume = set_volume)
+                set_vol_cmd = 'sudo amixer cset numid=1 -- {volume}% > /dev/null' .format(volume = set_volume)
+                os.system(set_vol_cmd)  # set volume
+
+                if DEBUG:
+                        print "set_volume", set_volume
+                        print "tri_pot_changed", set_volume
+
+                # save the potentiometer reading for the next loop
+                last_read = trim_pot
 
         # hang out and do nothing for a half second
         time.sleep(0.5)
