@@ -13,6 +13,7 @@ from Tkinter import *
 import ReadDatabase
 import Search
 import UpdateDatabase
+import ColorSensorTest
 import time
 import strandtest
 import pixy 
@@ -265,6 +266,7 @@ class Window(Frame):
 			self.listbox.destroy()
 			self.scrollbar.destroy()
 			self.returnButton.destroy()
+			self.checkButton.destroy()
 			
 		self.text = Label(self,text='What would you like to do?',font=("Times",24))
 		#self.text.place(relx=.3,rely=.2)
@@ -398,8 +400,9 @@ class Window(Frame):
 		
 		self.returnButton = Button(self,text='Return',font=("Times",14),command=lambda ty = 6: self.clientEmployee(ty),height=2,width=5)
 		self.returnButton.place(relx=.825,rely=.775)
-	
-	
+		
+			
+			
 	def clientPrintStatus(self,ty,label):
 		self.printLabel = Label(self,text=label,font=("Times",14))
 		self.printLabel.place(relx=.3,rely=.9)
@@ -412,6 +415,59 @@ class Window(Frame):
 		self.logOffButton.destroy()
 		self.text.destroy()
 		
+		self.scrollbar = Scrollbar(self)
+		self.scrollbar.pack(side=RIGHT,fill=Y)
+		
+		self.listbox = Listbox(self,width=40,height=20)
+		self.listbox.pack(fill=BOTH,expand=True)
+		
+		self.listbox.config(yscrollcommand=self.scrollbar.set)
+		self.scrollbar.config(command=self.listbox.yview)
+		
+		self.returnButton = Button(self,text='Return',font=("Times",14),command=lambda ty = 6: self.clientEmployee(ty),height=2,width=5)
+		self.returnButton.place(relx=.825,rely=.775)
+		
+		self.checkButton = Button(self,text='Check Again',font=("Times",14),command=self.checkAgain,height=2,width=8)
+		self.checkButton.place(relx=.025,rely=.775)
+		
+		i=0
+		colorSensor=ColorSensorTest.ColorSensor()
+		while i < 3:
+			if(colorSensor[i] == 0):#fFSR ==1
+				self.listbox.insert(END,'Item at Row: 1 and Column: %s is misplaced'%(i+1))
+			elif(colorSensor[i] == 0):#FSR!=1
+				self.listbox.insert(END,'Item at Row: 1 and Column: %s has a color difference'%(i+1))
+			i+=1
+		
+	def checkAgain(self):
+		self.listbox.destroy()
+		self.scrollbar.destroy()
+		self.checkButton.destroy()
+		self.returnButton.destroy()
+		
+		self.scrollbar = Scrollbar(self)
+		self.scrollbar.pack(side=RIGHT,fill=Y)
+		
+		self.listbox = Listbox(self,width=40,height=20)
+		self.listbox.pack(fill=BOTH,expand=True)
+		
+		self.listbox.config(yscrollcommand=self.scrollbar.set)
+		self.scrollbar.config(command=self.listbox.yview)
+		
+		self.returnButton = Button(self,text='Return',font=("Times",14),command=lambda ty = 6: self.clientEmployee(ty),height=2,width=5)
+		self.returnButton.place(relx=.825,rely=.775)
+		
+		self.checkButton = Button(self,text='Check Again',font=("Times",14),command=self.checkAgain,height=2,width=8)
+		self.checkButton.place(relx=.025,rely=.775)
+		
+		i=0
+		colorSensor=ColorSensorTest.ColorSensor()
+		while i < 3:
+			if(colorSensor[i] == 0):#fFSR ==1
+				self.listbox.insert(END,'Item at Row: 1 and Column: %s is misplaced'%(i+1))
+			elif(colorSensor[i] == 0):#FSR!=1
+				self.listbox.insert(END,'Item at Row: 1 and Column: %s has a color difference'%(i+1))
+			i+=1
 									  
 	def employeeLogOff(self):
 		self.addItemButton.destroy()
