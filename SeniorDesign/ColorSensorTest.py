@@ -1,4 +1,5 @@
 import pixy 
+import time
 from ctypes import *
 from pixy import *
 
@@ -31,9 +32,11 @@ def ColorSensor():
 		#print 'frame %3d:' % (frame)
 		frame = frame + 1
 		for index in range (0, count):
-			check[blocks[index]-1]+=1
+			check[index] = blocks[index].m_signature
 		  #print '[BLOCK: SIG=%d X=%3d Y=%3d WIDTH=%3d HEIGHT=%3d]' % (blocks[index].m_signature, blocks[index].m_x, blocks[index].m_y, blocks[index].m_width, blocks[index].m_height)
-
+		for j in range(0,count):
+			if(check[j]-1 == 1 or check[j] == 2 or check[j] == 3):
+				ret[check[j]-1]+=1
 		i+=1
-	ret = check
+		time.sleep(.5)
 	return ret
