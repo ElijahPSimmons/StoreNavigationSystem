@@ -432,6 +432,7 @@ class Window(Frame):
 		
 		i=0
 		colorSensor=ColorSensorTest.ColorSensor()
+		print colorSensor
 		while i < 3:
 			if(colorSensor[i] == 0):#fFSR ==1
 				self.listbox.insert(END,'Item at Row: 1 and Column: %s is misplaced'%(i+1))
@@ -462,6 +463,7 @@ class Window(Frame):
 		
 		i=0
 		colorSensor=ColorSensorTest.ColorSensor()
+		print colorSensor
 		while i < 3:
 			if(colorSensor[i] == 0):#fFSR ==1
 				self.listbox.insert(END,'Item at Row: 1 and Column: %s is misplaced'%(i+1))

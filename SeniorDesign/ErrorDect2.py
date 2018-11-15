@@ -66,7 +66,7 @@ def runFSR():
         SPICLK = 18
         SPIMISO = 23
         SPIMOSI = 24
-        SPICS = [25,25,25,25,25,25]
+        SPICS = [5,6,13,19,26,25]
 		 
 		
         GPIO.setwarnings(False)
