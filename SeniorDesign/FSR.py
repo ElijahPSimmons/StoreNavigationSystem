@@ -52,8 +52,9 @@ def runFSR():
 	SPICLK = 18
 	SPIMISO = 23
 	SPIMOSI = 24
-	SPICS = [5,6,13,19,26,25]
-
+	#SPICS = [5,6,13,19,26,25]
+        SPICS = [25,25,25,25,25,25]
+        
 	GPIO.setwarnings(False)
 	# set up the SPI interface pins
 	GPIO.setup(SPIMOSI, GPIO.OUT)
@@ -73,7 +74,7 @@ def runFSR():
 	i = 0
 	iteration = 0
 	t_end = time.time() + 15
-	while(time.time() < t_end):
+	while("""time.time() < t_end""" ):
 		cs = SPICS[i]
 		# read the analog pin
 		trim_pot[i] = readadc(potentiometer_adc, SPICLK, SPIMOSI, SPIMISO, cs)

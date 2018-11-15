@@ -2,7 +2,7 @@
 # Author: Tony DiCola (tony@tonydicola.com), Jeremy Garff (jer@jers.net)
 import atexit
 
-import _rpi_ws281x as ws
+import rpi_ws281x as ws
 
 
 def Color(red, green, blue, white = 0):
