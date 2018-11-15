@@ -4,7 +4,6 @@ import atexit
 
 import rpi_ws281x as ws
 
-
 def Color(red, green, blue, white = 0):
 	"""Convert the provided red, green, blue color to a 24-bit color value.
 	Each color component should be a value 0-255 where 0 is the lowest intensity

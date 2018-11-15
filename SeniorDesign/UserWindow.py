@@ -187,7 +187,7 @@ class Window(Frame):
 		#Sets the correct pin assignment based on the aisle and row of the item to light up the proper section
 		pinLoc = 0
 		if(listOfItems[loc].locAisle == '1' and listOfItems[loc].locRow == '1'):
-			pinLoc = 21
+			pinLoc = 12
 		elif(listOfItems[loc].locAisle == '1' and listOfItems[loc].locRow == '2'):
 			pinLoc = 20
 		elif(listOfItems[loc].locAisle == '2' and listOfItems[loc].locRow == '1'):

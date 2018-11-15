@@ -9,9 +9,9 @@ def main():
 	args = parser.parse_args()
 	try:
 		while True:
-			strandtest.setColors([0,100,0],10,20,21)
+			strandtest.setColors([0,100,0],10,20,12)
 			time.sleep(5)
-			strandtest.setColors([0,100,0],30,20,21)
+			strandtest.setColors([0,100,0],30,20,12)
 			time.sleep(5)
 	except KeyboardInterrupt:
 		if args.clear:
