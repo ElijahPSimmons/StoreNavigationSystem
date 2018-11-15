@@ -13,10 +13,10 @@ from Tkinter import *
 import ReadDatabase
 import Search
 import UpdateDatabase
-#import ColorSensorTest
+import ColorSensorTest
 import time
 import strandtest
-#import pixy 
+import pixy
 from ctypes import *
 from pixy import *
 

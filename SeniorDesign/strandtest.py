@@ -10,14 +10,14 @@ from neopixel import *
 import argparse
 
 # LED strip configuration:
-#LED_COUNT      = 5      # Number of LED pixels.
-#LED_PIN        = 21      # GPIO pin connected to the pixels (18 uses PWM!).
+LED_COUNT      = 5      # Number of LED pixels.
+LED_PIN        = 21      # GPIO pin connected to the pixels (18 uses PWM!).
 #LED_PIN        = 10      # GPIO pin connected to the pixels (10 uses SPI /dev/spidev0.0).
-#LED_FREQ_HZ    = 800000  # LED signal frequency in hertz (usually 800khz)
-#LED_DMA        = 10      # DMA channel to use for generating signal (try 10)
-#LED_BRIGHTNESS = 255     # Set to 0 for darkest and 255 for brightest
-#LED_INVERT     = False   # True to invert the signal (when using NPN transistor level shift)
-#LED_CHANNEL    = 0       # set to '1' for GPIOs 13, 19, 41, 45 or 53
+LED_FREQ_HZ    = 800000  # LED signal frequency in hertz (usually 800khz)
+LED_DMA        = 10      # DMA channel to use for generating signal (try 10)
+LED_BRIGHTNESS = 255     # Set to 0 for darkest and 255 for brightest
+LED_INVERT     = False   # True to invert the signal (when using NPN transistor level shift)
+LED_CHANNEL    = 0       # set to '1' for GPIOs 13, 19, 41, 45 or 53
 
 
 
@@ -36,7 +36,7 @@ def colorWipeArray(strip, color,start,length):
     while(i<=(start+length)):
         strip.setPixelColor(i, color)
         strip.show()
-	i+=1
+        i += 1
         #time.sleep(wait_ms/1000.0)
 
 # Main program logic follows:
@@ -67,15 +67,15 @@ def setColors(RGBWvalues,start,length,stripPin):
 		#print('Use "-c" argument to clear LEDs on exit')
 	
 	try:
-		ret = 0
-		while True:
-			#	colorWipe(strip, Color(255, 0, 0))  # Green wipe
-			#	colorWipe(strip, Color(0, 255, 0))  # Red wipe
-			#	colorWipe(strip, Color(0, 0, RGBWvalues))  # Blue wipe
-			colorWipeArray(strip, Color(RGBWvalues[1], RGBWvalues[0], RGBWvalues[2]),start,length)  # Red wipe
-			ret += 1
-			if(ret == 5):
-				break
+            ret = 0
+            while True:
+                #	colorWipe(strip, Color(255, 0, 0))  # Green wipe
+                #	colorWipe(strip, Color(0, 255, 0))  # Red wipe
+                #	colorWipe(strip, Color(0, 0, RGBWvalues))  # Blue wipe
+                colorWipeArray(strip, Color(RGBWvalues[1], RGBWvalues[0], RGBWvalues[2]),start,length)  # Red wipe
+                ret += 1
+                if(ret == 5):
+                    break
 	except KeyboardInterrupt:
-		if args.clear:
-			colorWipe(strip, Color(0,0,0), 10)
+            if args.clear:
+                colorWipe(strip, Color(0,0,0), 10)

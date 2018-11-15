@@ -1,2 +1,24 @@
 add \n after each endline
 add in aisle # after search
+
+***Update 11/15/2018 1:30 am***
+top Color Sensor now working but selected block turns
+into entire screen instead of mustard or multimeter
+
+Still having issues with import pixy on UserWindow.py
+Comment out and everything else on customer side seems
+to be working
+
+Disregard UserWindow1.py 
+
+Changed repository to my account (didn't want to take
+risks with raspberry pi crashing) 
+Username: trevorunruh5234
+password: Twusixty523432
+
+FSR detect ready to go (except just check 1 fsr rn)
+file called ErrorDect2.py
+
+Top LED's work but bottom not plugged in yet
+LED code works (don't ask me how. I just think it hates you)
+

@@ -26,17 +26,17 @@ def ColorSensor():
 	check = [0,0,0,0,0,0,0,0,0,0]
 	ret = check
 	while i<20:
-	  count = pixy.ccc_get_blocks (100, blocks)
+            count = pixy.ccc_get_blocks (100, blocks)
 
-	  if count > 0:
+            if count > 0:
 		#print 'frame %3d:' % (frame)
-		frame = frame + 1
-		for index in range (0, count):
-			check[index] = blocks[index].m_signature
+                frame = frame + 1
+                for index in range (0, count):
+                    check[index] = blocks[index].m_signature
 		  #print '[BLOCK: SIG=%d X=%3d Y=%3d WIDTH=%3d HEIGHT=%3d]' % (blocks[index].m_signature, blocks[index].m_x, blocks[index].m_y, blocks[index].m_width, blocks[index].m_height)
-		for j in range(0,count):
-			if(check[j]-1 == 1 or check[j] == 2 or check[j] == 3):
-				ret[check[j]-1]+=1
-		i+=1
-		time.sleep(.5)
+                for j in range(0,count):
+                    if(check[j]-1 == 1 or check[j] == 2 or check[j] == 3):
+                        ret[check[j]-1]+=1
+                i+=1
+                time.sleep(.5)
 	return ret
