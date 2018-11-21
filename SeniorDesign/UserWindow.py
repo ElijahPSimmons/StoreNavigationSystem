@@ -185,17 +185,19 @@ class Window(Frame):
 							   
 	def litLEDs(self,loc):
 		#Sets the correct pin assignment based on the aisle and row of the item to light up the proper section
-		pinLoc = 0
+		pinLoc = 18 #Changed from 0
 		if(listOfItems[loc].locAisle == '1' and listOfItems[loc].locRow == '1'):
-			pinLoc = 12
+			pinLoc = 18 #Changed from 16
+			strandtest.setColors(user.RGBW,int(20*(float((listOfItems[loc].locCol))-1)),20,pinLoc)
 		elif(listOfItems[loc].locAisle == '1' and listOfItems[loc].locRow == '2'):
-			pinLoc = 20
-		elif(listOfItems[loc].locAisle == '2' and listOfItems[loc].locRow == '1'):
-			pinLoc = 16
-		elif(listOfItems[loc].locAisle == '2' and listOfItems[loc].locRow == '2'):
-			pinLoc = 15
-		strandtest.setColors(user.RGBW,int(float((listOfItems[loc].locCol))*10),20,pinLoc)
-		time.sleep(5)
+			pinLoc = 18 #Changed from 20
+			strandtest.setColors(user.RGBW,int(82+(20*(float((listOfItems[loc].locCol))-1))),20,pinLoc)
+		#elif(listOfItems[loc].locAisle == '2' and listOfItems[loc].locRow == '1'):
+		#	pinLoc = 18
+		#elif(listOfItems[loc].locAisle == '2' and listOfItems[loc].locRow == '2'):
+		#	pinLoc = 18
+		#strandtest.setColors(user.RGBW,int(float((listOfItems[loc].locCol))),20,pinLoc)
+	    	time.sleep(5)
 		strandtest.setColors([0,0,0],0,60,pinLoc)
 		
 	def customerLogOff(self):

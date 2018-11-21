@@ -16,3 +16,13 @@ Possibly fasten everything to the shelf
 Don't forget about the power brick for the rpi
 
 
+LED Strip works with (PMW0) pins; 12,18
+		--> Thinking of hooking both LEDs to one Pin
+			Becomes (1-120) instead of (1-60)(1-60)
+
+By the way, if (FSR>0)
+			FSR = Annoying
+		else
+			FSR = Frustrating 
+		
+
