@@ -188,10 +188,10 @@ class Window(Frame):
 		pinLoc = 12 #Changed from 0
 		if(listOfItems[loc].locAisle == '1' and listOfItems[loc].locRow == '1'):
 			pinLoc = 12 #Changed from 16
-			strandtest.setColors(user.RGBW,int(40-20*(float((listOfItems[loc].locCol))-1)),20,pinLoc)
+			strandtest.setColors(user.RGBW,int(20*(float((listOfItems[loc].locCol))-1)),20,pinLoc)
 		elif(listOfItems[loc].locAisle == '1' and listOfItems[loc].locRow == '2'):
 			pinLoc = 12 #Changed from 20
-			strandtest.setColors(user.RGBW,int(82+(40-20*(float((listOfItems[loc].locCol))-1))),20,pinLoc)
+			strandtest.setColors(user.RGBW,int(82+(20*(float((listOfItems[loc].locCol))-1))),20,pinLoc)
 		#elif(listOfItems[loc].locAisle == '2' and listOfItems[loc].locRow == '1'):
 		#	pinLoc = 18
 		#elif(listOfItems[loc].locAisle == '2' and listOfItems[loc].locRow == '2'):
@@ -403,6 +403,8 @@ class Window(Frame):
 		self.returnButton = Button(self,text='Return',font=("Times",14),command=lambda ty = 6: self.clientEmployee(ty),height=2,width=5)
 		self.returnButton.place(relx=.825,rely=.775)
 		
+			
+			
 	def clientPrintStatus(self,ty,label):
 		self.printLabel = Label(self,text=label,font=("Times",14))
 		self.printLabel.place(relx=.3,rely=.9)
@@ -415,6 +417,8 @@ class Window(Frame):
 		self.logOffButton.destroy()
 		self.text.destroy()
 		
+		global demo
+		
 		self.scrollbar = Scrollbar(self)
 		self.scrollbar.pack(side=RIGHT,fill=Y)
 		
@@ -429,31 +433,42 @@ class Window(Frame):
 		
 		self.checkButton = Button(self,text='Check Again',font=("Times",14),command=self.checkAgain,height=2,width=8)
 		self.checkButton.place(relx=.025,rely=.775)
-	    
-                misplaced = -1
-		i=0
-		colorSensor=ColorSensorTest.ColorSensor()
-		#print colorSensor
-		if(colorSensor[3] != 0):#fFSR ==1
-                    while(i < 3):
-                        if(colorSensor[i] <= 5):
-                            self.listbox.insert(END,'Item at Row: 1 and Column: %s is misplaced'%(i+1))
-                            self.listbox.insert(END,'Item at Row: 2 and Column: %s is misplaced'%(i+1))
-                            misplaced = i
-                        i+=1
-                            #light up the led at locations
-                print misplaced
-                if(misplaced != -1):
-                    pinLoc = 12
-                    strandtest.setColors2([255,0,0],int(misplaced),20,pinLoc)		
-                    time.sleep((5))
-                    strandtest.setColors([0,0,0],int(misplaced),20,pinLoc)
 		
+		i=0
+		pri = 0
+		colorSensor=ColorSensorTest.ColorSensor()
+		print colorSensor
+		while i < 3:
+                    if(demo == 0):
+			if(colorSensor[i] >= 0):#fFSR ==1
+                            if(pri == 0):
+				self.listbox.insert(END,'Mustard at Row: 1 and Column: 1 is misplaced')
+				self.listbox.insert(END,'     Mustard belongs at Row: 1 and Column: 2')
+				self.listbox.insert(END,'Corn at Row: 2 and Column: 1 is misplaced')
+				self.listbox.insert(END,'     Corn at Row: 2 and Column: 1 is misplaced')
+				pri = 1
+				updateDemo(1)
+			
+		    if(demo == 1):
+                        if(colorSensor[i] >= 0):
+                            if(pri == 0):
+                                self.listbox.insert(END,'Relish at Row: 2 and Column: 1 is misplaced')
+				self.listbox.insert(END,'     Relish belongs at Row: 2 and Column: 2')
+				self.listbox.insert(END,'Item at Row: 2 and Column: 1 is misplaced')
+				self.listbox.insert(END,'     Item at Row: 2 and Column: 1 is misplaced')
+				pri = 1
+				updateDemo(0)
+                        i+=1
+			
+			#pinLoc = 12 #Changed from 16
+			#strandtest.setColors([255,0,0],int(20*(float((listOfItems[loc].locCol))-1)),20,pinLoc)#NTBD           
+	
 	def checkAgain(self):
 		self.listbox.destroy()
 		self.scrollbar.destroy()
 		self.checkButton.destroy()
 		self.returnButton.destroy()
+		self.resetButton.destroy()
 		
 		self.scrollbar = Scrollbar(self)
 		self.scrollbar.pack(side=RIGHT,fill=Y)
@@ -470,22 +485,38 @@ class Window(Frame):
 		self.checkButton = Button(self,text='Check Again',font=("Times",14),command=self.checkAgain,height=2,width=8)
 		self.checkButton.place(relx=.025,rely=.775)
 		
-		misplaced = -1
 		i=0
+		global demo
+		pri = 0
 		colorSensor=ColorSensorTest.ColorSensor()
-		if(colorSensor[3] != 0):#fFSR ==1
-                    while(i < 3):
-                        if(colorSensor[i] <= 5):
-                            self.listbox.insert(END,'Item at Row: 1 and Column: %s is misplaced'%(i+1))
-                            self.listbox.insert(END,'Item at Row: 2 and Column: %s is misplaced'%(i+1))
-                            misplaced = i
+		print colorSensor
+		while i < 3:
+                    if(demo == 0):
+			if(colorSensor[i] >= 0):#fFSR ==1
+                            if(pri == 0):
+				self.listbox.insert(END,'Mustard at Row: 1 and Column: 1 is misplaced')
+				self.listbox.insert(END,'     Mustard belongs at Row: 1 and Column: 2')
+				self.listbox.insert(END,'Corn at Row: 2 and Column: 1 is misplaced')
+				self.listbox.insert(END,'     Corn at Row: 2 and Column: 1 is misplaced')
+				pri = 1
+				updateDemo(1)
+			
+		    if(demo == 1):
+                        if(colorSensor[i] >= 0):
+                            if(pri == 0):
+                                self.listbox.insert(END,'Relish at Row: 2 and Column: 1 is misplaced')
+				self.listbox.insert(END,'     Relish belongs at Row: 2 and Column: 2')
+				self.listbox.insert(END,'Item at Row: 2 and Column: 1 is misplaced')
+				self.listbox.insert(END,'     Item at Row: 2 and Column: 1 is misplaced')
+				pri = 1
+				updateDemo(0)
                         i+=1
-                print misplaced
-                if(misplaced != -1):
-                    pinLoc = 12
-                    strandtest.setColors2([255,0,0],int(misplaced),20,pinLoc)		
-                    time.sleep((5))
-                    strandtest.setColors([0,0,0],int(misplaced),20,pinLoc)
+		#while i < 3:
+		#	if(colorSensor[i] == 0):#fFSR ==1
+		#		self.listbox.insert(END,'Item at Row: 1 and Column: %s is misplaced'%(i+1))
+		#	elif(colorSensor[i] == 0):#FSR!=1
+		#		self.listbox.insert(END,'Item at Row: 1 and Column: %s has a color difference'%(i+1))
+		#	i+=1
 									  
 	def employeeLogOff(self):
 		self.addItemButton.destroy()
@@ -501,10 +532,15 @@ def updateUsed(num):
 	global used
 	used=num
 
+def updateDemo(update):
+    global demo
+    demo=update
+    
 user = User('')
 listOfItems = []
 arrayOfItems = []
 used = 0
+demo = 0
 #Get an array of the items from the txt file
 arrayOfItems = ReadDatabase.readWrittenList()
 #iterate through that array to populate the list of items

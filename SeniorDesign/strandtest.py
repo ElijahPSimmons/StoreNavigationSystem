@@ -80,3 +80,44 @@ def setColors(RGBWvalues,start,length,stripPin):
 	except KeyboardInterrupt:
             if args.clear:
                 colorWipe(strip, Color(0,0,0), 10)
+
+
+def setColors2(color,column,length,stripPin):
+    colorSet = Color(color[1],color[0],color[2])
+    LED_COUNT      = 144      # Number of LED pixels.
+    LED_PIN        = stripPin      # GPIO pin connected to the pixels (18 uses PWM!).
+#LED_PIN        = 10      # GPIO pin connected to the pixels (10 uses SPI /dev/spidev0.0).
+    LED_FREQ_HZ    = 800000  # LED signal frequency in hertz (usually 800khz)
+    LED_DMA        = 10      # DMA channel to use for generating signal (try 10)
+    LED_BRIGHTNESS = 255     # Set to 0 for darkest and 255 for brightest
+    LED_INVERT     = False   # True to invert the signal (when using NPN transistor level shift)
+    LED_CHANNEL    = 0       # set to '1' for GPIOs 13, 19, 41, 45 or 53, '0' for 16 & 18
+	
+    # Process arguments
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-c', '--clear', action='store_true', help='clear the display on exit')
+    args = parser.parse_args()
+
+    # Create NeoPixel object with appropriate configuration.
+    strip = Adafruit_NeoPixel(LED_COUNT, LED_PIN, LED_FREQ_HZ, LED_DMA, LED_INVERT, LED_BRIGHTNESS, LED_CHANNEL)
+	# Intialize the library (must be called once before other functions).
+    strip.begin()
+	
+	#print ('Press Ctrl-C to quit.')
+	#if not args.clear:
+		#print('Use "-c" argument to clear LEDs on exit')
+    #Need to know the location so that we can adequately find the right leds to light up
+    try:
+        ret = 0
+        while True:
+                #	colorWipe(strip, Color(255, 0, 0))  # Green wipe
+                #	colorWipe(strip, Color(0, 255, 0))  # Red wipe
+                #	colorWipe(strip, Color(0, 0, RGBWvalues))  # Blue wipe
+           colorWipeArray(strip,colorSet,40-20*(column),length)  # Red wipe
+           colorWipeArray(strip,colorSet,82+(40-20*(column)),length)
+           ret += 1
+           if(ret == 5):
+               break
+    except KeyboardInterrupt:
+        if args.clear:
+            colorWipe(strip, Color(0,0,0), 10)
