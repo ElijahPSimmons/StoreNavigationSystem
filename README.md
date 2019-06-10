@@ -1,9 +1,5 @@
 #StoreNavigationSystemECE519
 
-Team project
-
-Learned connection of different sensors, LEDs to the raspberry pi and made a GUI in python for user benefit.
-
 # Store Navigation System
 
 Senior Design Project ECE 591 Team Project
